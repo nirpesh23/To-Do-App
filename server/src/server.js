@@ -15,13 +15,7 @@ app.use('/', (req, res, next)=>{
 })
 app.use('/', ToDoController);
 
-// app.use((req, res, next)=>{
-//     console.log("🚀 ~ app.use ~ res:", res)
-//     if(typeof res === 'object'){
-//         console.log('=======================================')
-//     }
-//     next();
-// })
-app.listen(5000,'127.0.0.1',()=>{
+const PORT = process.env.PORT || 5000
+app.listen(PORT,'127.0.0.1',()=>{
     console.log("listening on port::: 5000");
 });
