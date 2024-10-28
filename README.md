@@ -8,7 +8,7 @@ Welcome to Project Name, a modern web application crafted with a robust backend 
 - **RESTful APIs**: Smooth communication between client and server.
 - **MySQL Database**: Efficient and secure data storage and retrieval.
 
-## Table Modal
+## Table Model
 - CREATE TABLE `todo.items` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
