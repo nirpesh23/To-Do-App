@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function ModalForm(props){
-    const {open, setOpen} = props.modalOptions;
+    const {open, setOpen, todos, updatedId} = props.modalOptions;
   const [formData, setFormData] = useState({
     id:'',
     name: '',
@@ -14,8 +14,6 @@ export default function ModalForm(props){
   };
 
   const handleSubmit = () => {
-    // console.log('Form submitted:', formData);
-    // setOpen(false);
     props.modalOptions.handleOnUpdate(formData)
   };
 
@@ -31,7 +29,7 @@ export default function ModalForm(props){
                 type="text"
                 name="name"
                 placeholder="Name"
-                value={formData.name}
+                value={todos.find((item)=> item.id === updatedId)?.name || formData.name}
                 onChange={handleChange}
                 required
               />
@@ -42,7 +40,7 @@ export default function ModalForm(props){
                 type="text"
                 name="description"
                 placeholder="Description"
-                value={formData.description}
+                value={todos.find((item)=> item.id === updatedId)?.description || formData.description}
                 onChange={handleChange}
                 required
               />

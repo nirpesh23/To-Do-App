@@ -1,9 +1,8 @@
 import TodoList from './TodoList';
 import AddTodo from './AddTodo';
-import { useState } from 'react';
 
 export default function TabContent(props){
-    const [todos, setTodos] = useState([]);
+    const {todos, setTodos} = props
 
     switch (props.activeTab) {
       case 'tab1':

@@ -5,6 +5,7 @@ import TodoRepository from "../repositories/todo.repository.js";
 export default class ToDoService{
 
     static async createTodo(request){
+        console.log("🚀 ~ ToDoService ~ request:", request)
         try {
             if(!request.name){
                 return Result.createErrorWithMessage(new Error(), 'Name is required!');

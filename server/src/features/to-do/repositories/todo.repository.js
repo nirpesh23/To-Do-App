@@ -31,9 +31,9 @@ export default class TodoRepository{
     static updateStatusById(id){
         try {
             const result = db.execute(
-                'UPDATE todo.items SET completed=true WHERE id=?',
+                'UPDATE todo.items SET completed=true, completed_on=? WHERE id=?',
             [
-                id
+                new Date(), id
             ]);
             return result;
         } catch (error) {
@@ -43,11 +43,7 @@ export default class TodoRepository{
 
     static findAll(){
         try {
-            const result = db.execute('SELECT * FROM todo.items WHERE completed=0 AND end_date<=? ORDER BY id ASC',
-                [
-                    new Date()
-                ]
-            )
+            const result = db.execute('SELECT * FROM todo.items WHERE completed=0 ORDER BY id ASC');
             return result;
         } catch (error) {
             throw error;

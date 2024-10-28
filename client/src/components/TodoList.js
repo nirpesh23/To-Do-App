@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ToDoItem from "./TodoItem";
 import axios from "axios";
 import Modal from "./Modal";
-import FilterButton from "./Filter";
+import { BASE_URL } from "../constants";
 
 export default function TodoList(props){
     const [open, setOpen] = useState(false);
@@ -12,9 +12,8 @@ export default function TodoList(props){
 
     async function fetchTodoItems(){
         try {
-            const response = await fetch('http://127.0.0.1:5000/todo');
+            const response = await fetch(`${BASE_URL}/todo`);
             const data = await response.json();
-            console.log("🚀 ~ fetchTodoItems ~ data:", data)
             setTodos(data.data);
         } catch (error) {
             console.error("Error fetching todo items:", error);
@@ -22,22 +21,22 @@ export default function TodoList(props){
     }
 
     function handleOnDelete(id){
-        axios.delete(`http://127.0.0.1:5000/todo/${id}`)
+        axios.delete(`${BASE_URL}/todo/${id}`)
         setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
     }
 
     function handleOnUpdate(data){
         setOpen(false);
-        axios.put(`http://127.0.0.1:5000/todo/${updatedId}`, data).then(async (res)=>{
-            const response = await fetch('http://127.0.0.1:5000/todo');
+        axios.put(`${BASE_URL}/todo/${updatedId}`, data).then(async (res)=>{
+            const response = await fetch(`${BASE_URL}/todo`);
             const data = await response.json();
             setTodos(data.data);
         });
     }
 
     function setComplete(id){
-        axios.put(`http://127.0.0.1:5000/todo/${id}/complete`).then(async (res)=>{
-            const response = await fetch('http://127.0.0.1:5000/todo');
+        axios.put(`${BASE_URL}/todo/${id}/complete`).then(async (res)=>{
+            const response = await fetch(`${BASE_URL}/todo`);
             const data = await response.json();
             setTodos(data.data);
         });
@@ -53,67 +52,26 @@ export default function TodoList(props){
         }
     }, [])
     
-    const getCompletedSearchResult = async ()=>{
-        try {
-            const response = await fetch('http://127.0.0.1:5000/todo/completed',);
-            const data = await response.json();
-            setTodos(data.data);
-        } catch (error) {
-            console.error("Error fetching todo items:", error);
-        }
-    }
-
-    const getUpcomingSearchResult = async ()=>{
-        try {
-            const response = await fetch('http://127.0.0.1:5000/todo/upcoming',);
-            const data = await response.json();
-            setTodos(data.data);
-        } catch (error) {
-            console.error("Error fetching todo items:", error);
-        }
-    }
-    const completeOptions = {
-        name : "Done",
-        btnClass:"ui button green",
-        margin: "90%",
-        float: "right",
-    }
-
-    const upcomingOptions = {
-        name : "Upcoming",
-        btnClass:"ui button purple",
-        margin: "80%",
-    }
-    
     const modalOptions = {
         setUpdatedId,
         open,
         setOpen,
-        handleOnUpdate
-    }
-
-    switch(activeTab){
-        case 'tab2':
-            getCompletedSearchResult();
-            break;
-        case 'tab3':
-            getUpcomingSearchResult();
-            break;
-        default:
-            break;
+        handleOnUpdate,
+        todos,
+        updatedId
     }
 
     const list = todos?.map((item)=>{
         console.log("🚀 ~ list ~ item:", item)
         return (
-            <ToDoItem data={item} handleOnDelete={handleOnDelete} modalOptions={modalOptions} setComplete={setComplete}></ToDoItem>
+            <ToDoItem data={item} handleOnDelete={handleOnDelete} modalOptions={modalOptions} setComplete={setComplete} activeTab={activeTab}></ToDoItem>
         )
     });
 
     return (
         <div>
             <Modal modalOptions={modalOptions}></Modal>
-            <div className="ui celled list" style={{marginTop:"10px",overflowY: "scroll",textAlign: "justify", maxHeight:"300px"}}>
+            <div className="ui celled list" style={{marginTop:"2px",overflowY: "scroll",textAlign: "justify", maxHeight:"300px"}}>
                 {list?.length ? list : <p style={{textAlign:"center"}}>No Tasks!</p>}
             </div>
         </div>
