@@ -22,7 +22,7 @@ export default class ToDoService{
             return Result.createSuccess();
         } catch (error) {
             console.log("🚀 ~ ToDoService ~ error:", error)
-            Result.createErrorWithMessage(error.message, 'Error while inserting items!')
+            Result.createErrorWithMessage(error.message, 'Error while adding items!')
         }
     }
 
